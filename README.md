@@ -96,7 +96,7 @@ cd backend
 npm run migrate
 ```
 
-4. Seed reference data (hammams, categories, prices, demo users):
+4. Seed reference data (hammams, categories, prices, and development users):
 
 ```bash
 npm run seed
@@ -104,16 +104,9 @@ npm run seed
 
 5. Reset the development database at any time by re-running the migrate + seed steps.
 
-### Development credentials (seeded)
-
-| Role      | Email               | Password       |
-| --------- | ------------------- | -------------- |
-| Admin     | admin@hammam.ma     | Admin@123      |
-| Reception | fatima@hammam.ma    | Reception@123  |
-| Reception | amina@hammam.ma     | Reception@123  |
-
-> **Important:** never use these credentials in production — change them and seed production
-> data separately.
+> **Production:** do not run `npm run seed` against your live database. Migrate the
+> production database, then create real staff accounts from the admin UI (Users → Add
+> user). The seed script is only for local development.
 
 ## Environment variables
 
