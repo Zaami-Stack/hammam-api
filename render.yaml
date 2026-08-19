@@ -1,0 +1,28 @@
+# Render Blueprint - Moroccan Hammam API
+# Usage: push this repo to GitHub, then in Render: "New > Blueprint"
+# and point it at the repo. Then set the sync:false variables in the dashboard.
+services:
+  - type: web
+    name: hammam-api
+    runtime: node
+    rootDir: backend
+    plan: starter
+    buildCommand: npm run build
+    startCommand: npm run start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_SSL
+        value: "true"
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: TRUST_PROXY
+        value: "true"
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
