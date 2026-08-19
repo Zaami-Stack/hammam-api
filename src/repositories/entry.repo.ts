@@ -6,6 +6,11 @@ type EntryWithNamesRow = EntryWithNames & RowDataPacket;
 
 type Conn = Pool | PoolConnection;
 
+export async function deleteAllEntries(): Promise<number> {
+  const [result] = await getPool().execute<ResultSetHeader>('DELETE FROM entries');
+  return result.affectedRows;
+}
+
 export interface EntryFilters {
   from?: Date;
   to?: Date;

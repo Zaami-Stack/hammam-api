@@ -1,9 +1,14 @@
 import { Request, Response } from 'express';
-import { createEntrance, getEntrance, listEntrances } from '../services/entry.service';
+import { createEntrance, getEntrance, listEntrances, wipeEntrances } from '../services/entry.service';
 import { created, ok, paginated } from '../utils/response';
 import { parseInput } from '../utils/validate';
 import { createEntrySchema } from '../validators/entry.validator';
 import { entriesFilterSchema } from '../validators/query.validator';
+
+export async function wipeEntries(_req: Request, res: Response): Promise<void> {
+  const deleted = await wipeEntrances();
+  ok(res, { deleted });
+}
 
 export async function createEntry(req: Request, res: Response): Promise<void> {
   const input = parseInput(createEntrySchema, req.body);

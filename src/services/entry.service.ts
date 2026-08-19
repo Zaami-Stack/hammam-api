@@ -1,5 +1,5 @@
 import { getPool } from '../db/pool';
-import { createEntry, EntryFilters, findEntryById, listEntries } from '../repositories/entry.repo';
+import { createEntry, deleteAllEntries, EntryFilters, findEntryById, listEntries } from '../repositories/entry.repo';
 import { getPriceByCombination } from '../repositories/price.repo';
 import { categoryExists, hammamExists } from '../repositories/validate.repo';
 import { EntryWithNames, Pagination, SafeUser } from '../types/entities';
@@ -9,6 +9,10 @@ import { casablancaToday, resolveRange } from '../utils/time';
 export interface CreateEntryInput {
   hammamId: number;
   categoryId: number;
+}
+
+export async function wipeEntrances(): Promise<number> {
+  return deleteAllEntries();
 }
 
 export async function createEntrance(actor: SafeUser, input: CreateEntryInput): Promise<EntryWithNames> {
