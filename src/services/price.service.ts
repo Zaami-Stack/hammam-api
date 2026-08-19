@@ -13,7 +13,7 @@ export async function updatePriceValue(
   price: number
 ): Promise<PriceWithNames> {
   const existing = await getPriceById(id);
-  if (!existing) throw new NotFoundError('Price not found');
+  if (!existing) throw new NotFoundError('Tarif introuvable');
 
   await updatePrice(id, price);
 
@@ -27,6 +27,6 @@ export async function updatePriceValue(
   });
 
   const updated = await getPriceById(id);
-  if (!updated) throw new NotFoundError('Price not found');
+  if (!updated) throw new NotFoundError('Tarif introuvable');
   return updated;
 }

@@ -47,15 +47,15 @@ export async function authenticate(req: Request, _res: Response, next: NextFunct
     try {
       payload = jwt.verify(token, env.JWT_SECRET) as TokenPayload;
     } catch {
-      throw new UnauthorizedError('Session has expired or is invalid');
+      throw new UnauthorizedError('La session a expiré ou est invalide');
     }
 
     const user = await findUserById(Number(payload.sub));
     if (!user) {
-      throw new UnauthorizedError('User account no longer exists');
+      throw new UnauthorizedError("Le compte utilisateur n'existe plus");
     }
     if (!user.is_active) {
-      throw new ForbiddenError('This account has been deactivated');
+      throw new ForbiddenError('Ce compte a été désactivé');
     }
 
     req.user = toSafeUser(user);

@@ -47,7 +47,7 @@ describe.skipIf(!TEST_DB_AVAILABLE)('Authentication', () => {
       password: 'Reception@123',
     });
     expect(res.status).toBe(403);
-    expect(res.body.message).toContain('deactivated');
+    expect(res.body.message).toContain('désactivé');
   });
 
   it('returns the current user from /me', async () => {

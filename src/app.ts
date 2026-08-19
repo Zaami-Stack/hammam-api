@@ -43,7 +43,7 @@ app.use('/api', apiLimiter);
 app.use('/api', routes);
 
 app.use('/api', (_req, res) => {
-  res.status(404).json({ success: false, message: 'Endpoint not found', code: 'NOT_FOUND' });
+  res.status(404).json({ success: false, message: 'Route introuvable', code: 'NOT_FOUND' });
 });
 
 app.use(errorHandler);

@@ -16,7 +16,7 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
   if (err instanceof ZodError) {
     res.status(400).json({
       success: false,
-      message: 'Invalid request data',
+      message: 'Données de requête invalides',
       errors: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message })),
     });
     return;
@@ -29,20 +29,20 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
 
   if (isSqlError(err)) {
     if (err.code === 'ER_DUP_ENTRY') {
-      res.status(409).json({ success: false, message: 'A record with this value already exists', code: 'DUPLICATE' });
+      res.status(409).json({ success: false, message: 'Un enregistrement avec cette valeur existe déjà', code: 'DUPLICATE' });
       return;
     }
     if (err.code === 'ER_NO_REFERENCED_ROW_2' || err.code === 'ER_ROW_IS_REFERENCED_2') {
-      res.status(400).json({ success: false, message: 'Invalid related record', code: 'REFERENTIAL' });
+      res.status(400).json({ success: false, message: 'Enregistrement lié invalide', code: 'REFERENTIAL' });
       return;
     }
     if (err.code === 'ECONNREFUSED' || err.code === 'ETIMEDOUT' || err.code === 'ER_ACCESS_DENIED_ERROR') {
       logger.error('Database connection error', err);
-      res.status(503).json({ success: false, message: 'Database is temporarily unavailable', code: 'DB_UNAVAILABLE' });
+      res.status(503).json({ success: false, message: 'La base de données est temporairement indisponible', code: 'DB_UNAVAILABLE' });
       return;
     }
   }
 
   logger.error('Unhandled error', err);
-  res.status(500).json({ success: false, message: 'Internal server error', code: 'INTERNAL' });
+  res.status(500).json({ success: false, message: 'Erreur interne du serveur', code: 'INTERNAL' });
 }

@@ -15,7 +15,7 @@ export async function createUserAccount(data: {
 }): Promise<SafeUser> {
   const existing = await findUserByEmail(data.email);
   if (existing) {
-    throw new ConflictError('A user with this email already exists');
+    throw new ConflictError("Un utilisateur avec cet e-mail existe déjà");
   }
   const passwordHash = await bcrypt.hash(data.password, BCRYPT_ROUNDS);
   const user = await createUser({
@@ -37,7 +37,7 @@ async function assertNotLastActiveAdmin(
   if (staysAdmin) return;
   const activeAdmins = await countActiveAdmins();
   if (activeAdmins <= 1) {
-    throw new ConflictError('Cannot deactivate or demote the last active administrator');
+    throw new ConflictError('Impossible de désactiver ou rétrograder le dernier administrateur actif');
   }
 }
 
@@ -46,12 +46,12 @@ export async function updateUserAccount(
   fields: { name?: string; email?: string; role?: Role }
 ): Promise<SafeUser> {
   const user = await findUserById(id);
-  if (!user) throw new NotFoundError('User not found');
+  if (!user) throw new NotFoundError('Utilisateur introuvable');
 
   if (fields.email && fields.email.toLowerCase() !== user.email) {
     const existing = await findUserByEmail(fields.email);
     if (existing && existing.id !== id) {
-      throw new ConflictError('A user with this email already exists');
+throw new ConflictError("Un utilisateur avec cet e-mail existe déjà");
     }
   }
 
@@ -64,13 +64,13 @@ export async function updateUserAccount(
     email: fields.email,
     role: fields.role,
   });
-  if (!updated) throw new NotFoundError('User not found');
+  if (!updated) throw new NotFoundError('Utilisateur introuvable');
   return toSafeUser(updated);
 }
 
 export async function changeUserStatus(id: number, isActive: boolean): Promise<SafeUser> {
   const user = await findUserById(id);
-  if (!user) throw new NotFoundError('User not found');
+  if (!user) throw new NotFoundError('Utilisateur introuvable');
   if (user.is_active === isActive) {
     return toSafeUser(user);
   }
@@ -82,14 +82,14 @@ export async function changeUserStatus(id: number, isActive: boolean): Promise<S
 
 export async function resetUserPassword(id: number, password: string): Promise<void> {
   const user = await findUserById(id);
-  if (!user) throw new NotFoundError('User not found');
+  if (!user) throw new NotFoundError('Utilisateur introuvable');
   const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
   await setUserPassword(id, passwordHash);
 }
 
 export function validateRole(value: string): Role {
   if (value !== 'ADMIN' && value !== 'RECEPTION') {
-    throw new BadRequestError('Invalid role');
+    throw new BadRequestError('Rôle invalide');
   }
   return value;
 }

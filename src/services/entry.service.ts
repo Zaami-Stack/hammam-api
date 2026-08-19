@@ -21,19 +21,19 @@ export async function createEntrance(actor: SafeUser, input: CreateEntryInput): 
     const hammam = await hammamExists(conn, input.hammamId);
     if (!hammam) {
       await conn.rollback();
-      throw new NotFoundError('Hammam not found');
+      throw new NotFoundError('Hammam introuvable');
     }
 
     const category = await categoryExists(conn, input.categoryId);
     if (!category) {
       await conn.rollback();
-      throw new NotFoundError('Category not found');
+      throw new NotFoundError('Catégorie introuvable');
     }
 
     const price = await getPriceByCombination(conn, input.hammamId, input.categoryId);
     if (!price) {
       await conn.rollback();
-      throw new NotFoundError('No price is configured for this hammam/category combination');
+      throw new NotFoundError("Aucun tarif n'est configuré pour cette combinaison hammam/catégorie");
     }
 
     const entry = await createEntry(conn, {
@@ -99,9 +99,9 @@ export async function listEntrances(
 
 export async function getEntrance(actor: SafeUser, id: number): Promise<EntryWithNames> {
   const entry = await findEntryById(id);
-  if (!entry) throw new NotFoundError('Entry not found');
+  if (!entry) throw new NotFoundError('Entrée introuvable');
   if (actor.role !== 'ADMIN' && entry.user_id !== actor.id) {
-    throw new ForbiddenError('You cannot view other agents\' entries');
+    throw new ForbiddenError("Vous ne pouvez pas consulter les entrées des autres agents");
   }
   return entry;
 }

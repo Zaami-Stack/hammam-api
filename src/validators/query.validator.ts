@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const dateString = z
   .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Use format YYYY-MM-DD')
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Utilisez le format AAAA-MM-JJ')
   .superRefine((value, ctx) => {
     const [y, m, d] = value.split('-').map(Number);
     const date = new Date(Date.UTC(y, m - 1, d));
@@ -11,7 +11,7 @@ const dateString = z
       date.getUTCMonth() !== m - 1 ||
       date.getUTCDate() !== d
     ) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Invalid calendar date' });
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Date du calendrier invalide' });
     }
   });
 

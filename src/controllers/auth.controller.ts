@@ -31,7 +31,7 @@ export async function handleLogout(_req: Request, res: Response): Promise<void> 
     sameSite: 'lax',
     path: '/',
   });
-  ok(res, { message: 'Logged out successfully' });
+  ok(res, { message: 'Déconnexion réussie' });
 }
 
 export async function handleMe(req: Request, res: Response): Promise<void> {

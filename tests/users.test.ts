@@ -92,7 +92,7 @@ describe.skipIf(!TEST_DB_AVAILABLE)('Users management', () => {
     const c = await adminClient();
     const res = await c.patch('/api/users/1/status').send({ is_active: false });
     expect(res.status).toBe(409);
-    expect(res.body.message).toContain('last active administrator');
+    expect(res.body.message).toContain('dernier administrateur actif');
   });
 
   it('prevents demoting the last active administrator', async () => {

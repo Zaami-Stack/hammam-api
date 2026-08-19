@@ -1,18 +1,18 @@
 import { z } from 'zod';
 
 const userBase = {
-  name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100),
-  email: z.string().trim().email('Provide a valid email address').max(255),
+  name: z.string().trim().min(2, 'Le nom doit comporter au moins 2 caractères').max(100),
+  email: z.string().trim().email('Fournissez une adresse e-mail valide').max(255),
 };
 
 export const createUserSchema = z.object({
   ...userBase,
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, 'Le mot de passe doit comporter au moins 8 caractères')
     .max(128)
-    .regex(/[a-zA-Z]/, 'Password must contain a letter')
-    .regex(/[0-9]/, 'Password must contain a number'),
+    .regex(/[a-zA-Z]/, 'Le mot de passe doit contenir au moins une lettre')
+    .regex(/[0-9]/, 'Le mot de passe doit contenir au moins un chiffre'),
   role: z.enum(['ADMIN', 'RECEPTION']),
 });
 
@@ -29,8 +29,8 @@ export const setStatusSchema = z.object({
 export const setPasswordSchema = z.object({
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, 'Le mot de passe doit comporter au moins 8 caractères')
     .max(128)
-    .regex(/[a-zA-Z]/, 'Password must contain a letter')
-    .regex(/[0-9]/, 'Password must contain a number'),
+    .regex(/[a-zA-Z]/, 'Le mot de passe doit contenir au moins une lettre')
+    .regex(/[0-9]/, 'Le mot de passe doit contenir au moins un chiffre'),
 });

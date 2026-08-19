@@ -9,7 +9,7 @@ export function authorize(...roles: Role[]) {
       return;
     }
     if (!roles.includes(req.user.role)) {
-      next(new ForbiddenError('You do not have permission to perform this action'));
+      next(new ForbiddenError("Vous n'avez pas la permission d'effectuer cette action"));
       return;
     }
     next();

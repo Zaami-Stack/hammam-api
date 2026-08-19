@@ -56,7 +56,7 @@ describe.skipIf(!TEST_DB_AVAILABLE)('Entrances', () => {
     const admin = await login('admin@hammam.ma', 'Admin@123');
     const res = await admin.post('/api/entries').send({ hammamId: 2, categoryId: 2 });
     expect(res.status).toBe(404);
-    expect(res.body.message).toContain('No price is configured');
+    expect(res.body.message).toContain('Aucun tarif');
   });
 
   it('preserves historical prices when the current price changes', async () => {

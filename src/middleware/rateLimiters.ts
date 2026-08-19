@@ -14,7 +14,7 @@ export const loginLimiter = maybeRateLimit({
   limit: 10,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { success: false, message: 'Too many login attempts. Please try again in 15 minutes.' },
+  message: { success: false, message: 'Trop de tentatives de connexion. Réessayez dans 15 minutes.' },
 });
 
 export const apiLimiter = maybeRateLimit({
@@ -22,5 +22,5 @@ export const apiLimiter = maybeRateLimit({
   limit: 600,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { success: false, message: 'Too many requests. Please try again later.' },
+  message: { success: false, message: 'Trop de requêtes. Réessayez plus tard.' },
 });

@@ -69,5 +69,5 @@ export async function changePassword(req: Request, res: Response): Promise<void>
   const input = parseInput(setPasswordSchema, req.body);
   await resetUserPassword(id, input.password);
   await createAuditLog(req.user!.id, 'USER_PASSWORD_RESET', 'user', id);
-  ok(res, { message: 'Password updated successfully' });
+  ok(res, { message: 'Mot de passe mis à jour avec succès' });
 }

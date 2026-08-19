@@ -3,11 +3,11 @@ import { dateString } from './query.validator';
 
 const monthString = z
   .string()
-  .regex(/^\d{4}-\d{2}$/, 'Use format YYYY-MM');
+  .regex(/^\d{4}-\d{2}$/, 'Utilisez le format AAAA-MM');
 
 const yearString = z
   .string()
-  .regex(/^\d{4}$/, 'Use format YYYY');
+  .regex(/^\d{4}$/, 'Utilisez le format AAAA');
 
 export const dailyReportSchema = z.object({
   date: dateString.optional(),

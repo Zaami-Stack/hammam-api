@@ -42,7 +42,7 @@ function requireValidDate(date?: string, fallback?: string): string {
     return casablancaToday();
   }
   if (!isValidDateString(date)) {
-    throw new BadRequestError('Invalid date, use YYYY-MM-DD');
+    throw new BadRequestError('Date invalide, utilisez AAAA-MM-JJ');
   }
   return date;
 }
@@ -78,7 +78,7 @@ export async function weeklyReport(dateStr?: string) {
 function requireValidMonth(month?: string): string {
   if (!month) return casablancaToday().slice(0, 7);
   if (!/^\d{4}-\d{2}$/.test(month)) {
-    throw new BadRequestError('Invalid month, use YYYY-MM');
+    throw new BadRequestError('Mois invalide, utilisez AAAA-MM');
   }
   return month;
 }
@@ -113,7 +113,7 @@ function lastDayOfMonth(month: string): string {
 function requireValidYear(year?: string): string {
   if (!year) return casablancaToday().slice(0, 4);
   if (!/^\d{4}$/.test(year)) {
-    throw new BadRequestError('Invalid year, use YYYY');
+    throw new BadRequestError('Année invalide, utilisez AAAA');
   }
   return year;
 }
