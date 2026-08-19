@@ -90,6 +90,40 @@ describe.skipIf(!TEST_DB_AVAILABLE)('Entrances', () => {
     expect(res.status).toBe(403);
   });
 
+  it('filters history by hammam, category and agent', async () => {
+    const admin = await login('admin@hammam.ma', 'Admin@123');
+    const fatima = await login('fatima@hammam.ma', 'Reception@123');
+
+    await admin.post('/api/entries').send({ hammamId: 1, categoryId: 1 });
+    await fatima.post('/api/entries').send({ hammamId: 2, categoryId: 1 });
+    await fatima.post('/api/entries').send({ hammamId: 2, categoryId: 2 });
+    await fatima.post('/api/entries').send({ hammamId: 1, categoryId: 2 });
+
+    const byHammam = await admin.get('/api/entries?hammamId=2&limit=50');
+    expect(byHammam.body.pagination.total).toBe(2);
+    expect(byHammam.body.data.every((e) => e.hammam_name === 'Women')).toBe(true);
+
+    const byCategory = await admin.get('/api/entries?categoryId=1&limit=50');
+    expect(byCategory.body.pagination.total).toBe(2);
+    expect(byCategory.body.data.every((e) => e.category_name === 'Adult')).toBe(true);
+
+    const byAgent = await admin.get('/api/entries?userId=2&limit=50');
+    expect(byAgent.body.pagination.total).toBe(3);
+    expect(byAgent.body.data.every((e) => e.user_id === 2)).toBe(true);
+
+    const combined = await admin.get('/api/entries?hammamId=2&categoryId=1&userId=2&limit=50');
+    expect(combined.body.pagination.total).toBe(1);
+    expect(combined.body.data[0].hammam_name).toBe('Women');
+    expect(combined.body.data[0].category_name).toBe('Adult');
+    expect(combined.body.data[0].user_name).toBe('Fatima');
+
+    const receptionSelfScoped = await fatima.get(
+      '/api/entries?hammamId=1&userId=1&categoryId=1&limit=50'
+    );
+    expect(receptionSelfScoped.body.pagination.total).toBe(3);
+    expect(receptionSelfScoped.body.data.every((e) => e.user_id === 2)).toBe(true);
+  });
+
   it('does not allow editing existing entries (no update endpoint)', async () => {
     const admin = await login('admin@hammam.ma', 'Admin@123');
     const created = await admin.post('/api/entries').send({ hammamId: 1, categoryId: 1 });
